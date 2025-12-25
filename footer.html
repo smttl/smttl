@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>smtl | Portfolio</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- GENEL AYARLAR (GitHub Dark Theme) --- */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
+            background: #0d1117; 
+            color: #c9d1d9; 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 40px 20px; 
+        }
+
+        /* --- PROFİL & SOSYAL MEDYA ALANI --- */
+        header { text-align: center; margin-bottom: 50px; }
+        h1 { color: #fff; font-size: 2.5rem; margin-bottom: 10px; }
+        .bio { color: #8b949e; font-size: 1.1rem; margin-bottom: 25px; max-width: 600px; margin-left: auto; margin-right: auto;}
+
+        /* Sosyal Medya İkonları */
+        .social-links { display: flex; justify-content: center; gap: 20px; }
+        .social-links a {
+            color: #c9d1d9;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        /* Hover Efektleri (Her biri kendi renginde parlasın) */
+        .social-links a:hover { transform: translateY(-3px); }
+        .social-links a.github:hover { color: #fff; }
+        .social-links a.linkedin:hover { color: #0a66c2; }
+        .social-links a.instagram:hover { color: #e1306c; }
+        .social-links a.mail:hover { color: #ea4335; }
+
+        /* --- PROJE BUTONLARI --- */
+        .nav-buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 30px; }
+        
+        .repo-btn { 
+            background: #21262d; 
+            color: #58a6ff; 
+            border: 1px solid #30363d; 
+            padding: 12px 24px; 
+            cursor: pointer; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            font-size: 1rem;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .repo-btn:hover { background: #30363d; border-color: #8b949e; color: #fff; }
+        .repo-btn i { font-size: 0.9rem; }
+
+        /* --- README GÖSTERİM ALANI --- */
+        #readme-container {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            padding: 40px;
+            border-radius: 6px;
+            line-height: 1.6;
+            min-height: 300px;
+        }
+        
+        /* Markdown İçerik Stilleri (Gelen veriyi güzelleştirme) */
+        #readme-container img { max-width: 100%; border-radius: 5px; }
+        #readme-container h1, #readme-container h2 { border-bottom: 1px solid #21262d; padding-bottom: 10px; margin-top: 20px; color: #fff; }
+        #readme-container a { color: #58a6ff; text-decoration: none; }
+        #readme-container a:hover { text-decoration: underline; }
+        #readme-container pre { background: #161b22; padding: 15px; border-radius: 6px; overflow-x: auto; border: 1px solid #30363d; }
+        #readme-container code { background: rgba(110,118,129,0.4); padding: 2px 6px; border-radius: 3px; font-family: monospace; font-size: 0.9em; }
+        #readme-container blockquote { border-left: 4px solid #30363d; padding-left: 15px; color: #8b949e; margin-left: 0; }
+        
+        /* Footer */
+        footer { margin-top: 50px; text-align: center; color: #484f58; font-size: 0.9rem; border-top: 1px solid #21262d; padding-top: 20px;}
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>smtl.</h1>
+        <p class="bio">Veteriner Hekim 🐾 | Geliştirici 📱 | Elektronik Tutkunu ⚡️ <br>Mesleki süreçleri optimize eden dijital çözümler üretmeye çalışıyorum. <br>Projelerimi incelemek için aşağıdaki butonlara tıklayın.</p>
+        <div class="social-links">
+            <a href="https://github.com/smttl" target="_blank" class="github" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/mehmetsametisik" target="_blank" class="linkedin" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://instagram.com/smttlvt" target="_blank" class="instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:smtl123samet@gmail.com" class="mail" title="E-Mail"><i class="fas fa-envelope"></i></a>
+        </div>
+    </header>
+
+    <div class="nav-buttons">
+        <button class="repo-btn" onclick="getReadme('smttl', 'vetcraft')">
+            <i class="fab fa-react"></i> Vetcraft Projem
+        </button>
+        <button class="repo-btn" onclick="getReadme('smttl', 'smttl.github.io')">
+            <i class="fab fa-css3-alt"></i> CC hesaplayıcı Projem
+        </button>
+        <button class="repo-btn" onclick="getReadme('smttl', 'proje_yoneticisi')">
+            <i class="fab fa-vuejs"></i> Tübitak Proje Yönetim Projem
+        </button>
+    </div>
+
+    <div id="loading" style="display:none; text-align: center; color: #58a6ff; font-weight: bold; margin: 20px 0;">
+        <i class="fas fa-spinner fa-spin"></i> Proje Detayları GitHub'dan Çekiliyor...
+    </div>
+
+    <div id="readme-container">
+        <div style="text-align: center; padding: 50px; color: #8b949e;">
+            <i class="fas fa-code-branch" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+            <p>Yukarıdaki butonlardan birine tıklayarak projelerimin <br>GitHub README dosyalarını burada görüntüleyebilirsin.</p>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 smtl.
+    </footer>
+
+    <script>
+        async function getReadme(username, repo) {
+            const container = document.getElementById('readme-container');
+            const loading = document.getElementById('loading');
+            
+            // Yüklenirken içeriği temizle ve loading göster
+            container.style.display = 'none';
+            loading.style.display = 'block';
+
+       try {
+                // GitHub'dan Raw Readme çek (main veya master dalını kontrol eder)
+                // Önce 'main' dalını dener
+                let response = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/main/README.md`);
+                
+                // Eğer main'de yoksa 'master' dalını dener
+                if (!response.ok) {
+                    response = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/README.md`);
+                }
+
+                if (!response.ok) throw new Error("README dosyası bulunamadı. Repo adını veya dal ismini (main/master) kontrol et.");
+
+                const text = await response.text();
+
+                // Markdown'ı HTML'e çevir
+                // Görüntü yollarını düzeltmek için basit bir replace işlemi (Opsiyonel ama önerilir)
+                // Bu basit replace sadece ./ ile başlayan resimleri düzeltir.
+                // Daha kapsamlısı için base url gerekir ama şimdilik iş görür.
+                container.innerHTML = marked.parse(text);
+                
+                // Sayfayı hafifçe aşağı (içeriğe) kaydır
+                container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            } catch (error) {
+                container.style.display = 'block';
+                container.innerHTML = `
+                    <div style="text-align:center; color:#ff7b72; padding:20px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size:2rem; margin-bottom:10px;"></i><br>
+                        <strong>Hata:</strong> ${error.message}
+                    </div>`;
+            } finally {
+                loading.style.display = 'none';
+                container.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
