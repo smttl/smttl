@@ -6,7 +6,6 @@
     <title>smtl | Portfolio</title>
     
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -33,7 +32,7 @@
             transition: all 0.3s ease;
             text-decoration: none;
         }
-        /* Hover Efektleri (Her biri kendi renginde parlasın) */
+        /* Hover Efektleri */
         .social-links a:hover { transform: translateY(-3px); }
         .social-links a.github:hover { color: #fff; }
         .social-links a.linkedin:hover { color: #0a66c2; }
@@ -70,7 +69,7 @@
             min-height: 300px;
         }
         
-        /* Markdown İçerik Stilleri (Gelen veriyi güzelleştirme) */
+        /* Markdown İçerik Stilleri */
         #readme-container img { max-width: 100%; border-radius: 5px; }
         #readme-container h1, #readme-container h2 { border-bottom: 1px solid #21262d; padding-bottom: 10px; margin-top: 20px; color: #fff; }
         #readme-container a { color: #58a6ff; text-decoration: none; }
@@ -134,31 +133,23 @@
             const container = document.getElementById('readme-container');
             const loading = document.getElementById('loading');
             
-            // Yüklenirken içeriği temizle ve loading göster
             container.style.display = 'none';
             loading.style.display = 'block';
 
-       try {
-                // GitHub'dan Raw Readme çek (main veya master dalını kontrol eder)
-                // Önce 'main' dalını dener
+            try {
+                // Önce main, olmazsa master dalını dene
                 let response = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/main/README.md`);
-                
-                // Eğer main'de yoksa 'master' dalını dener
                 if (!response.ok) {
                     response = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/master/README.md`);
                 }
 
-                if (!response.ok) throw new Error("README dosyası bulunamadı. Repo adını veya dal ismini (main/master) kontrol et.");
+                if (!response.ok) throw new Error("README dosyası bulunamadı. Repo adını kontrol et.");
 
                 const text = await response.text();
-
                 // Markdown'ı HTML'e çevir
-                // Görüntü yollarını düzeltmek için basit bir replace işlemi (Opsiyonel ama önerilir)
-                // Bu basit replace sadece ./ ile başlayan resimleri düzeltir.
-                // Daha kapsamlısı için base url gerekir ama şimdilik iş görür.
                 container.innerHTML = marked.parse(text);
                 
-                // Sayfayı hafifçe aşağı (içeriğe) kaydır
+                // Sayfayı kaydır
                 container.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             } catch (error) {
